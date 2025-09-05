@@ -26,8 +26,8 @@ class Settings(BaseSettings):
     )
 
     # Container absolute paths
-    model_dir: str = "/app/api/src/models"  # Absolute path in container
-    voices_dir: str = "/app/api/src/voices/v1_0"  # Absolute path in container
+    model_dir: str = "/tmp/kokoro_models"  # Use temp directory for Render
+    voices_dir: str = "/tmp/kokoro_voices"  # Use temp directory for Render
 
     # Audio Settings
     sample_rate: int = 24000
@@ -59,7 +59,7 @@ class Settings(BaseSettings):
     cors_enabled: bool = True  # Whether to enable CORS
 
     # Temp File Settings for WEB Ui
-    temp_file_dir: str = "api/temp_files"  # Directory for temporary audio files (relative to project root)
+    temp_file_dir: str = "/tmp/kokoro_temp"  # Directory for temporary audio files
     max_temp_dir_size_mb: int = 2048  # Maximum size of temp directory (2GB)
     max_temp_dir_age_hours: int = 1  # Remove temp files older than 1 hour
     max_temp_dir_count: int = 3  # Maximum number of temp files to keep

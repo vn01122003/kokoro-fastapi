@@ -87,14 +87,17 @@ async def get_model_path(model_name: str) -> str:
     Raises:
         RuntimeError: If model not found
     """
-    # Get api directory path (two levels up from core)
-    api_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-
-    # Construct model directory path relative to api directory
-    model_dir = os.path.join(api_dir, settings.model_dir)
+    # Use absolute path from settings (for Render compatibility)
+    model_dir = settings.model_dir
 
     # Ensure model directory exists
-    os.makedirs(model_dir, exist_ok=True)
+    try:
+        os.makedirs(model_dir, exist_ok=True)
+    except PermissionError:
+        # Fallback to temp directory if permission denied
+        import tempfile
+        model_dir = os.path.join(tempfile.gettempdir(), "kokoro_models")
+        os.makedirs(model_dir, exist_ok=True)
 
     # Search in model directory
     search_paths = [model_dir]
@@ -115,14 +118,17 @@ async def get_voice_path(voice_name: str) -> str:
     Raises:
         RuntimeError: If voice not found
     """
-    # Get api directory path
-    api_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-
-    # Construct voice directory path relative to api directory
-    voice_dir = os.path.join(api_dir, settings.voices_dir)
+    # Use absolute path from settings (for Render compatibility)
+    voice_dir = settings.voices_dir
 
     # Ensure voice directory exists
-    os.makedirs(voice_dir, exist_ok=True)
+    try:
+        os.makedirs(voice_dir, exist_ok=True)
+    except PermissionError:
+        # Fallback to temp directory if permission denied
+        import tempfile
+        voice_dir = os.path.join(tempfile.gettempdir(), "kokoro_voices")
+        os.makedirs(voice_dir, exist_ok=True)
 
     voice_file = f"{voice_name}.pt"
 
