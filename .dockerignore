@@ -1,5 +1,10 @@
-# Version control
+# Git
 .git
+.gitignore
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+LICENSE
 
 # Python
 __pycache__
@@ -7,34 +12,76 @@ __pycache__
 *.pyo
 *.pyd
 .Python
-*.py[cod]
-*$py.class
-.pytest_cache
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
 .coverage
-.coveragerc
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
 
-# Environment
-# .env
-.venv
-env/
-venv/
-ENV/
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # IDE
-.idea
 .vscode
+.idea
 *.swp
 *.swo
-
-# Project specific
-examples/
-Kokoro-82M/
-ui/
-tests/
-*.md
-*.txt
-!requirements.txt
+*~
 
 # Docker
 Dockerfile*
 docker-compose*
+.dockerignore
+
+# Development
+dev/
+examples/
+tests/
+ui/depr_tests/
+api/tests/
+api/temp_files/
+
+# Documentation
+docs/
+assets/
+charts/
+
+# Scripts
+scripts/
+start-*.ps1
+start-*.sh
+
+# Temporary files
+*.tmp
+*.temp
+temp_files/
+
+# Large model files (will be downloaded during build)
+api/src/voices/
+api/src/models/v1_0/*.pt
+api/src/models/v1_0/*.bin
+api/src/models/v1_0/*.safetensors
+
+# Logs
+*.log
+logs/
+
+# Backup files
+backups/
+*.bak

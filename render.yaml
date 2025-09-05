@@ -2,8 +2,10 @@ services:
   - type: web
     name: kokoro-fastapi
     env: docker
-    dockerfilePath: ./Dockerfile.production
+    dockerfilePath: ./Dockerfile.render
     plan: free
+    region: oregon
+    branch: master
     envVars:
       - key: PYTHONPATH
         value: /app:/app/api
@@ -19,4 +21,13 @@ services:
         value: /usr/share/espeak-ng-data
       - key: ESPEAK_DATA_PATH
         value: /usr/share/espeak-ng-data
+      - key: ONNX_NUM_THREADS
+        value: "2"
+      - key: ONNX_INTER_OP_THREADS
+        value: "1"
+      - key: ONNX_EXECUTION_MODE
+        value: "parallel"
+      - key: ONNX_OPTIMIZATION_LEVEL
+        value: "all"
     healthCheckPath: /health
+    autoDeploy: true
