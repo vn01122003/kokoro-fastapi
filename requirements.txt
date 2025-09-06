@@ -38,3 +38,6 @@ text2num>=2.5.1
 
 # PyTorch CPU
 torch==2.7.1
+
+# Vercel specific
+mangum==0.17.0

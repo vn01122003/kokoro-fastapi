@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/src/main.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api/src/main.py"
+    }
+  ],
+  "env": {
+    "PYTHONPATH": "/var/task/api/src:/var/task",
+    "USE_GPU": "false",
+    "DEVICE": "cpu",
+    "DOWNLOAD_MODEL": "true",
+    "PHONEMIZER_ESPEAK_PATH": "/usr/bin",
+    "PHONEMIZER_ESPEAK_DATA": "/usr/share/espeak-ng-data",
+    "ESPEAK_DATA_PATH": "/usr/share/espeak-ng-data",
+    "ONNX_NUM_THREADS": "2",
+    "ONNX_INTER_OP_THREADS": "1",
+    "ONNX_EXECUTION_MODE": "parallel",
+    "ONNX_OPTIMIZATION_LEVEL": "all"
+  },
+  "functions": {
+    "api/src/main.py": {
+      "maxDuration": 300
+    }
+  }
+}

@@ -1,0 +1,49 @@
+# Development files
+dev/
+examples/
+tests/
+ui/depr_tests/
+api/tests/
+api/temp_files/
+
+# Documentation
+docs/
+assets/
+charts/
+
+# Scripts
+scripts/
+start-*.ps1
+start-*.sh
+
+# Docker files
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Large model files (will be downloaded during runtime)
+api/src/voices/
+api/src/models/v1_0/*.pt
+api/src/models/v1_0/*.bin
+api/src/models/v1_0/*.safetensors
+
+# Logs and temp files
+*.log
+logs/
+backups/
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
