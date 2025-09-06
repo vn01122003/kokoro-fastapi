@@ -96,7 +96,7 @@ async def get_model_path(model_name: str) -> str:
     except PermissionError:
         # Fallback to temp directory if permission denied
         import tempfile
-        model_dir = os.path.join(tempfile.gettempdir(), "kokoro_models")
+        model_dir = os.path.join(tempfile.gettempdir(), "kokoro_models", "v1_0")
         os.makedirs(model_dir, exist_ok=True)
 
     # Search in model directory
@@ -127,7 +127,7 @@ async def get_voice_path(voice_name: str) -> str:
     except PermissionError:
         # Fallback to temp directory if permission denied
         import tempfile
-        voice_dir = os.path.join(tempfile.gettempdir(), "kokoro_voices")
+        voice_dir = os.path.join(tempfile.gettempdir(), "kokoro_voices", "v1_0")
         os.makedirs(voice_dir, exist_ok=True)
 
     voice_file = f"{voice_name}.pt"

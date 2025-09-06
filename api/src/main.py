@@ -54,6 +54,23 @@ async def lifespan(app: FastAPI):
     # Clean old temp files on startup
     await cleanup_temp_files()
 
+    # Download model if needed
+    if os.getenv("DOWNLOAD_MODEL", "false").lower() == "true":
+        logger.info("Downloading model...")
+        try:
+            import subprocess
+            import sys
+            result = subprocess.run([
+                sys.executable, "docker/scripts/download_model.py", 
+                "--output", "/tmp/kokoro_models/v1_0"
+            ], capture_output=True, text=True, timeout=300)
+            if result.returncode == 0:
+                logger.info("Model downloaded successfully")
+            else:
+                logger.warning(f"Model download failed: {result.stderr}")
+        except Exception as e:
+            logger.warning(f"Model download error: {e}")
+
     logger.info("Loading TTS model and voice packs...")
 
     try:

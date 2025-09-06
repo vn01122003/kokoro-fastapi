@@ -26,8 +26,8 @@ class Settings(BaseSettings):
     )
 
     # Container absolute paths
-    model_dir: str = "/tmp/kokoro_models"  # Use temp directory for Render
-    voices_dir: str = "/tmp/kokoro_voices"  # Use temp directory for Render
+    model_dir: str = "/tmp/kokoro_models/v1_0"  # Use temp directory for Render
+    voices_dir: str = "/tmp/kokoro_voices/v1_0"  # Use temp directory for Render
 
     # Audio Settings
     sample_rate: int = 24000
