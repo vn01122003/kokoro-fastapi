@@ -24,10 +24,5 @@
     "ONNX_INTER_OP_THREADS": "1",
     "ONNX_EXECUTION_MODE": "parallel",
     "ONNX_OPTIMIZATION_LEVEL": "all"
-  },
-  "functions": {
-    "api/src/main.py": {
-      "maxDuration": 300
-    }
   }
 }
