@@ -1,6 +1,6 @@
 # Core dependencies
 fastapi==0.115.6
-uvicorn==0.34.0
+uvicorn[standard]==0.34.0
 click>=8.0.0
 pydantic==2.10.4
 pydantic-settings==2.7.0
@@ -36,8 +36,10 @@ phonemizer-fork>=3.3.2
 av>=14.2.0
 text2num>=2.5.1
 
-# PyTorch CPU
-torch==2.7.1
+# PyTorch CPU - optimized for Render
+torch==2.7.1+cpu
+torchaudio==2.7.1+cpu
+torchvision==0.20.1+cpu
 
-# Vercel specific
+# Render specific
 mangum==0.17.0

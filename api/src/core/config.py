@@ -7,8 +7,8 @@ class Settings(BaseSettings):
     api_title: str = "Kokoro TTS API"
     api_description: str = "API for text-to-speech generation using Kokoro"
     api_version: str = "1.0.0"
-    host: str = "0.0.0.0"
-    port: int = 8880
+    host: str = os.getenv("HOST", "0.0.0.0")
+    port: int = int(os.getenv("PORT", "8880"))
 
     # Application Settings
     output_dir: str = "output"
@@ -17,17 +17,15 @@ class Settings(BaseSettings):
     default_voice_code: str | None = (
         None  # If set, overrides the first letter of voice name, though api call param still takes precedence
     )
-    use_gpu: bool = True  # Whether to use GPU acceleration if available
-    device_type: str | None = (
-        None  # Will be auto-detected if None, can be "cuda", "mps", or "cpu"
-    )
+    use_gpu: bool = os.getenv("USE_GPU", "false").lower() == "true"  # Whether to use GPU acceleration if available
+    device_type: str | None = os.getenv("DEVICE", "cpu")  # Will be auto-detected if None, can be "cuda", "mps", or "cpu"
     allow_local_voice_saving: bool = (
         False  # Whether to allow saving combined voices locally
     )
 
-    # Container absolute paths
-    model_dir: str = "/app/api/src/models/v1_0"  # Use original path for Docker
-    voices_dir: str = "/app/api/src/voices/v1_0"  # Use original path for Docker
+    # Container absolute paths - Render optimized
+    model_dir: str = os.getenv("MODEL_DIR", "/opt/render/project/api/src/models/v1_0")
+    voices_dir: str = os.getenv("VOICES_DIR", "/opt/render/project/api/src/voices/v1_0")
 
     # Audio Settings
     sample_rate: int = 24000
@@ -58,8 +56,8 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["*"]  # CORS origins for web player
     cors_enabled: bool = True  # Whether to enable CORS
 
-    # Temp File Settings for WEB Ui
-    temp_file_dir: str = "/tmp/kokoro_temp"  # Directory for temporary audio files
+    # Temp File Settings for WEB Ui - Render optimized
+    temp_file_dir: str = os.getenv("TEMP_FILE_DIR", "/tmp/kokoro_temp")  # Directory for temporary audio files
     max_temp_dir_size_mb: int = 2048  # Maximum size of temp directory (2GB)
     max_temp_dir_age_hours: int = 1  # Remove temp files older than 1 hour
     max_temp_dir_count: int = 3  # Maximum number of temp files to keep

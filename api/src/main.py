@@ -60,10 +60,11 @@ async def lifespan(app: FastAPI):
         try:
             import subprocess
             import sys
+            model_output_dir = os.getenv("MODEL_DIR", "/opt/render/project/api/src/models/v1_0")
             result = subprocess.run([
                 sys.executable, "docker/scripts/download_model.py", 
-                "--output", "/tmp/kokoro_models/v1_0"
-            ], capture_output=True, text=True, timeout=300)
+                "--output", model_output_dir
+            ], capture_output=True, text=True, timeout=600)  # Increased timeout for Render
             if result.returncode == 0:
                 logger.info("Model downloaded successfully")
             else:
@@ -112,10 +113,15 @@ async def lifespan(app: FastAPI):
 
     # Add web player info if enabled
     if settings.enable_web_player:
-        startup_msg += (
-            f"\n\nBeta Web Player: http://{settings.host}:{settings.port}/web/"
-        )
-        startup_msg += f"\nor http://localhost:{settings.port}/web/"
+        # Check if running on Render
+        render_url = os.getenv("RENDER_EXTERNAL_URL")
+        if render_url:
+            startup_msg += f"\n\nWeb Player: {render_url}/web/"
+        else:
+            startup_msg += (
+                f"\n\nBeta Web Player: http://{settings.host}:{settings.port}/web/"
+            )
+            startup_msg += f"\nor http://localhost:{settings.port}/web/"
     else:
         startup_msg += "\n\nWeb Player: disabled"
 
@@ -166,4 +172,6 @@ async def test_endpoint():
 
 
 if __name__ == "__main__":
-    uvicorn.run("api.src.main:app", host=settings.host, port=settings.port, reload=True)
+    # Use environment port for Render compatibility
+    port = int(os.environ.get("PORT", settings.port))
+    uvicorn.run("api.src.main:app", host=settings.host, port=port, reload=False)

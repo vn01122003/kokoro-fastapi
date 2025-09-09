@@ -1,33 +1,39 @@
 services:
   - type: web
-    name: kokoro-fastapi
-    env: docker
-    dockerfilePath: ./Dockerfile.render
+    name: kokoro-tts
+    env: python
+    region: singapore
     plan: free
-    region: oregon
-    branch: master
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+      python -m spacy download en_core_web_sm
+      mkdir -p /opt/render/project/api/src/models/v1_0
+      mkdir -p /opt/render/project/api/src/voices/v1_0
+      mkdir -p /tmp/kokoro_temp
+    startCommand: python -m uvicorn api.src.main:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: PYTHONPATH
-        value: /app:/app/api
       - key: USE_GPU
-        value: "false"
+        value: false
       - key: DEVICE
-        value: "cpu"
+        value: cpu
       - key: DOWNLOAD_MODEL
-        value: "true"
+        value: true
       - key: PHONEMIZER_ESPEAK_PATH
         value: /usr/bin
       - key: PHONEMIZER_ESPEAK_DATA
         value: /usr/share/espeak-ng-data
       - key: ESPEAK_DATA_PATH
         value: /usr/share/espeak-ng-data
-      - key: ONNX_NUM_THREADS
-        value: "2"
-      - key: ONNX_INTER_OP_THREADS
-        value: "1"
-      - key: ONNX_EXECUTION_MODE
-        value: "parallel"
-      - key: ONNX_OPTIMIZATION_LEVEL
-        value: "all"
-    healthCheckPath: /health
-    autoDeploy: true
+      - key: PYTHONPATH
+        value: /opt/render/project/src:/opt/render/project
+      - key: HOST
+        value: 0.0.0.0
+      - key: PORT
+        value: 10000
+      - key: MODEL_DIR
+        value: /opt/render/project/api/src/models/v1_0
+      - key: VOICES_DIR
+        value: /opt/render/project/api/src/voices/v1_0
+      - key: TEMP_FILE_DIR
+        value: /tmp/kokoro_temp
