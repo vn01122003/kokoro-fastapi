@@ -87,8 +87,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-package-dir = {"" = "api/src"}
-packages.find = {where = ["api/src"], namespaces = true}
+packages.find = {where = ["."], include = ["api*"]}
 
 [tool.pytest.ini_options]
 testpaths = ["api/tests", "ui/tests"]

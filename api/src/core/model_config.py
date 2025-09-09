@@ -36,7 +36,7 @@ class ModelConfig(BaseModel):
 
     # Model filename
     pytorch_kokoro_v1_file: str = Field(
-        "v1_0/kokoro-v1_0.pth", description="PyTorch Kokoro V1 model filename"
+        "kokoro-v1_0.pth", description="PyTorch Kokoro V1 model filename"
     )
 
     # Backend config
